@@ -1,6 +1,6 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
+author: "Heidi Enger"
 description: "My final project"
 output:
   distill::distill_article:
@@ -11,4 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to U.S. elections, and possibly topics such as online misinformation, voting demographics, and voter turnout, especially in states which have recently passed restrictive voting laws after the Shelby County v. Holder Supreme Court case.
