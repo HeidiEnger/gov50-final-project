@@ -23,7 +23,6 @@ library(tidyverse)
 library(readr)
 elections <- read_csv("anes_timeseries.csv")
 
-elections
 
 ```
 
