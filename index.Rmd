@@ -22,7 +22,47 @@ Did restrictive state voting laws after Shelby County vs. Holder (2013) impact v
 library(tidyverse)
 library(readr)
 elections <- read_csv("anes_timeseries.csv")
+```
 
+```{r}
+str(elections)
+
+elections <- elections |>
+  filter(VCF0004 == "2012" | VCF0004 == "2016")
+
+elections
+```
+
+
+```{r}
+elections <- elections |>
+  select(`VCF0004`, `VCF0101`, `VCF0104`, `VCF0105a`, `VCF0112` ,`VCF0113`, `VCF0301`, `VCF0310`, `VCF0701`, `VCF0702`, `VCF0703`, `VCF0748`, `VCF0750`, `VCF0803`, `VCF0901a`, `VCF9150`)
+
+#year, respondent age, gender, race, region, political south/nonsouth, party identification, interest in elections, registered to vote, did respondent vote, register and turnout summary, voted on election day or before, voted in person or absentee, liberal/conservative scale, state code, registration status
+
+elections
+```
+
+```{r}
+elections <- elections |>
+  rename(year = VCF0004, age = VCF0101, gender = VCF0104, race = VCF0105a, region = VCF0112, poli_south = VCF0113, party = VCF0301, interest = VCF0310, registered = VCF0701, voted = VCF0702, turnout_summary = VCF0703, vote_day = VCF0748, vote_method = VCF0750, lib_scale = VCF0803, state_fips = VCF0901a)
+
+elections
+```
+
+```{r}
+library(ggplot2)
+
+elections |>
+  mutate(voted = if_else(voted == 2, "yes", "no")) |>
+  ggplot(mapping = aes(x = year)) +
+  geom_histogram(binwidth = 1) +
+  labs(x = "Year", y = "Voted", title = "Voter turnout by year")
 
 ```
+
+
+
+
+
 
