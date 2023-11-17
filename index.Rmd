@@ -17,13 +17,14 @@ I am interested in exploring data related to U.S. elections, including topics su
 
 Did restrictive state voting laws after Shelby County vs. Holder (2013) impact voter turnout in the 2016 general election? In this project, I will examine the extent to which restrictive voting laws passed after the Shelby decision impacted voter turnout in applicable states. I hypothesize that voter turnout decreased from 2012 to 2016 in states which passed stricter voter ID and mail-in ballot laws, especially for voters of color. I've chosen a data set with election data from 1948-2020, though I'll only be looking at general election data from 2012 and 2016, since I want to compare across time. The explanatory variable of interest is whether a state passed  restrictive voting law(s) or not. I will need to filter to specific states from the data based on information from the Brennan Center (see above). My outcome variable is voter turnout in a given state. If I observe lower voter turnout in 2016 compared to 2012 in states which passed restrictive voting laws, this would provide support for my hypothesis. If I observe higher or similar voter turnout, this would provide evidence against my hypothesis. 
 
-
+## Milestone 2
 ```{r}
 library(tidyverse)
 library(readr)
 elections <- read_csv("anes_timeseries.csv")
 ```
 
+## Milestone 3
 ```{r}
 
 elections <- elections |>
@@ -52,11 +53,33 @@ elections
 ```{r}
 library(ggplot2)
 
+elections <- elections |>
+  filter(voted == 2 | voted == 1) |>
+  mutate(voted_or_not = if_else(voted == 2, "yes", "no"))
+
 elections |>
-  mutate(voted = if_else(voted == 2, "yes", "no")) |>
   ggplot(mapping = aes(x = year)) +
   geom_histogram(binwidth = 1) +
   labs(x = "Year", y = "Voted", title = "Voter turnout by year")
+
+```
+## Milestone 4
+
+States previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder: South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona. 
+
+
+```{r}
+library(ggplot2)
+
+elections <- elections |>
+  mutate(new_laws = if_else(state_fips == c(1, 4, 12, 13, 22, 28, 36, 37, 45, 46, 48), "Restrictive laws", "No new laws"))
+
+elections |>
+  mutate(vote = if_else(voted_or_not == "yes", 1, 0),
+         turnout = mean(vote)) |>
+  ggplot(mapping = aes(x = new_laws)) +
+  geom_col(mapping = aes(y = turnout)) +
+  labs(x = "Whether state passed new restrictive laws", y = "Turnout proportion", title = "Turnout in states that passed restrictive laws vs. states that didn't")
 
 ```
 
