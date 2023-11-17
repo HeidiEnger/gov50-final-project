@@ -25,7 +25,6 @@ elections <- read_csv("anes_timeseries.csv")
 ```
 
 ```{r}
-str(elections)
 
 elections <- elections |>
   filter(VCF0004 == "2012" | VCF0004 == "2016")
