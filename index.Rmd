@@ -76,9 +76,9 @@ overall_turnout
 
 ## Milestone 4
 
-States previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder: South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona. 
+The states previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder are South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona. 
 
-Source for fips codes: https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt
+Source for FIPS codes: https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt
 
 
 ```{r}
@@ -87,15 +87,26 @@ library(ggplot2)
 elections <- elections |>
   mutate(new_laws = if_else(state_fips == c(1, 4, 12, 13, 22, 28, 36, 37, 45, 46, 48), "Restrictive laws", "No new laws"))
 
-elections |>
-  mutate(vote = if_else(voted_or_not == "yes", 1, 0),
-         turnout = mean(vote)) |>
-  ggplot(mapping = aes(x = new_laws)) +
-  geom_col(mapping = aes(y = turnout)) +
-  labs(x = "Whether state passed new restrictive laws", y = "Turnout proportion", title = "Turnout in states that passed restrictive laws vs. states that didn't")
+turnout_props_laws <- elections |>
+  group_by(new_laws) |>
+  summarize(turnout_prop = mean(voted_or_not))
+
+knitr::kable(turnout_props_laws, col.names = c("New laws or not", "Turnout Proportion"))
+
+laws_comparison <- elections |>
+  filter(year == 2016) |>
+  group_by(new_laws) |>
+  summarize(turnout_prop = mean(voted_or_not)) |>
+  ggplot(mapping = aes(y = turnout_prop)) +
+  geom_col(aes(x = new_laws), fill = "indianred") +
+  labs(x = "Whether state passed new restrictive laws", y = "Turnout proportion", title = "Turnout in states that passed restrictive laws vs. states with no new laws") 
+
+laws_comparison
 
 ```
-The turnout proportion in states that passed new restrictive voting laws was significantly lower than the turnout in states that did not. 
+The turnout proportion in states that passed new restrictive voting laws was lower than the turnout in states that did not. 
+
+Possible confounding: fewer people voting in 2016 due to unusually divisive candidates: Hilary Clinton, a woman, and Donald Trump, a political outsider. 
 
 
 
