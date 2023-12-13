@@ -54,11 +54,11 @@ elections <- elections |>
   filter(voted == 2 | voted == 1) |>
   mutate(voted_or_not = if_else(voted == 2, 1, 0))
 
-elections |>
+turnout_props <- elections |>
   group_by(year) |>
   summarize(turnout_prop = mean(voted_or_not))
 
-elections
+knitr::kable(turnout_props, col.names = c("Year", "Turnout Proportion"))
 
 overall_turnout <- elections |>
   group_by(year) |>
