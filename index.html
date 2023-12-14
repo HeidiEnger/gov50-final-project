@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["anes_timeseries.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/header-attrs-2.25/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["anes_timeseries.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/header-attrs-2.25/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/kePrint-0.0.1/kePrint.js","index_files/lightable-0.0.1/lightable.css","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1498,6 +1498,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="index_files/header-attrs-2.25/header-attrs.js"></script>
+  <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1543,12 +1545,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h1 id="introduction">Introduction</h1>
-<p>For this project, I was interested in exploring data related to U.S. elections. I chose to examine voter turnout in states which passed restrictive voting laws in the aftermath of the 2013 Shelby County v. Holder Supreme Court case, which found Section 4 of the Voting Rights Act unconstitutional, allowing states to pass voting laws without being subject to federal review. Restrictive laws include restrictions on mail-in voting and unreasonably strict voter ID requirements, which disproportionately impact voters of color. These sorts of laws have been adopted by 29 states as of 2023 (Brennan Center for Justice, 2023).</p>
+<h2 id="introduction">Introduction</h2>
+<p>For this project, I was interested in exploring data related to U.S. elections. I chose to examine voter turnout in states which passed restrictive voting laws in the aftermath of the 2013 Shelby County v. Holder Supreme Court case, which found Section 4 of the Voting Rights Act unconstitutional, allowing states to pass voting laws without being subject to federal review. Restrictive measures include restrictions on mail-in voting, unreasonably strict voter ID requirements, and voter purges. As of 2023, these kinds of laws have been adopted by 29 states, including 11 which were previously subject to preclearance (Brennan Center for Justice, 2023).</p>
 <p>Did restrictive state voting laws after Shelby County vs. Holder (2013) impact voter turnout in the 2016 general election? In this report, I examine the extent to which restrictive voting laws passed after the Shelby decision impacted voter turnout in applicable states. I hypothesize that voter turnout decreased from 2012 to 2016 in states which passed stricter voter ID and mail-in ballot laws, especially for voters of color. I’ve chosen a data set with election data from 1948-2020, though I’ll only be looking at general election data from 2012 and 2016, since I want to compare across time. The explanatory variable of interest is whether a state passed restrictive voting law(s) or not. I had to filter to specific states from the data based on information from the Brennan Center (see above). My outcome variable is voter turnout. If I observe lower voter turnout in 2016 compared to 2012 in states which passed restrictive voting laws, this would provide support for my hypothesis. If I observe higher or similar voter turnout, this would provide evidence against my hypothesis.</p>
 <h2 id="the-data">The Data</h2>
 <p>The data source is the American National Election Studies (ANES) Time Series Cumulative Data File, 1948-2020. ANES has conducted surveys, generally in-person interviews, during most national election cycles since 1948. The key dependent and independent variables for my project, namely voter turnout and year, are measured by these surveys. My research design is cross-sectional (difference-in-differences?)</p>
-<p>First, I filtered the dataset to only 2012 and 2016, directly before and after the Shelby County vs. Holder decision. Then I selected the columns I thought would be useful by referencing the code book, and renamed them for clarity.</p>
+<p>First, I filtered the dataset to only the 2012 and 2016 national elections, directly before and after the Shelby County vs. Holder decision. Then I selected the columns I thought would be useful by referencing the code book, and renamed them for clarity.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -1558,7 +1560,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>year <span class='op'>=</span> <span class='va'>VCF0004</span>, age <span class='op'>=</span> <span class='va'>VCF0101</span>, gender <span class='op'>=</span> <span class='va'>VCF0104</span>, race <span class='op'>=</span> <span class='va'>VCF0105a</span>, region <span class='op'>=</span> <span class='va'>VCF0112</span>, poli_south <span class='op'>=</span> <span class='va'>VCF0113</span>, party <span class='op'>=</span> <span class='va'>VCF0301</span>, interest <span class='op'>=</span> <span class='va'>VCF0310</span>, registered <span class='op'>=</span> <span class='va'>VCF0701</span>, voted <span class='op'>=</span> <span class='va'>VCF0702</span>, turnout_summary <span class='op'>=</span> <span class='va'>VCF0703</span>, vote_day <span class='op'>=</span> <span class='va'>VCF0748</span>, vote_method <span class='op'>=</span> <span class='va'>VCF0750</span>, lib_scale <span class='op'>=</span> <span class='va'>VCF0803</span>, state_fips <span class='op'>=</span> <span class='va'>VCF0901a</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>Plot of overall voter turnout in the 2012 vs. 2016 national elections:</p>
+<p>To summarize the dependent variable, voter turnout, I created a plot of overall voter turnout in the 2012 vs. 2016 national elections. In order to do so, I created a new variable, voted_or_not, from the voted variable, which had previously been coded 2 for voted, 1 for didn’t vote, and 0 for NA.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>elections</span> <span class='op'>&lt;-</span> <span class='va'>elections</span> <span class='op'>|&gt;</span></span>
@@ -1569,7 +1571,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>year</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>turnout_prop <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>voted_or_not</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>turnout_props</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Year"</span>, <span class='st'>"Turnout Proportion"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>turnout_props</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Year"</span>, <span class='st'>"Turnout Proportion"</span><span class='op'>)</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span></code></pre>
 </div>
 <table>
 <thead>
@@ -1581,11 +1583,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">2012</td>
-<td style="text-align: right;">0.799274</td>
+<td style="text-align: right;">0.799</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2016</td>
-<td style="text-align: right;">0.786006</td>
+<td style="text-align: right;">0.786</td>
 </tr>
 </tbody>
 </table>
@@ -1604,8 +1606,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<p>As you can see from the plot, overall voter turnout decreased from 2012 to 2016. But I wanted to examine the effects in states previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder. Those states are South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona. The FIPS codes for those states are 1, 4, 12, 13, 22, 28, 36, 37, 45, 46, and 48.</p>
-<h1 id="results">Results</h1>
+<p>As you can see from the plot, overall voter turnout decreased from 2012 to 2016. But I wanted to examine the effects in states previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder. Those states are South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona (Brennan Center, 2023). The FIPS codes for those states are 1, 4, 12, 13, 22, 28, 36, 37, 45, 46, and 48.</p>
+<h2 id="results">Results</h2>
+<p>To that end, I created a plot of the turnout proportion in states which passed restrictive voting laws versus those which did not. I began by creating a new variable, new_laws, which is coded as “Restrictive laws” if the FIPS code is for one of the above states, and “no new laws” for all other states. Then I followed a similar process as before for calculating turnout proportions and plotting them.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
@@ -1617,7 +1620,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>new_laws</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>turnout_prop <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>voted_or_not</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>turnout_props_laws</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"New laws or not"</span>, <span class='st'>"Turnout Proportion"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>turnout_props_laws</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"New laws or not"</span>, <span class='st'>"Turnout Proportion"</span><span class='op'>)</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span></code></pre>
 </div>
 <table>
 <thead>
@@ -1629,11 +1632,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">No new laws</td>
-<td style="text-align: right;">0.7950276</td>
+<td style="text-align: right;">0.795</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Restrictive laws</td>
-<td style="text-align: right;">0.7619048</td>
+<td style="text-align: right;">0.762</td>
 </tr>
 </tbody>
 </table>
@@ -1650,20 +1653,89 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<p>The turnout proportion in states that passed new restrictive voting laws was lower than the turnout in states that did not.</p>
-<p>plot of main analysis + regression output + 2-3 paragraphs of description and interpretation of the plots and regression (including interpreting the main coefficient of interest and describing if it is statistically significant and if we should interpret it causally).</p>
-<p>A scatterplot, barplot, or boxplot of the main relationship of interest and output for the main regression of interest.</p>
-<p>You should interpret (in plain English) the main coefficient of interest in your regression. You should also comment on the statistical significance of the estimated coefficient and whether or not you believe the coefficient to represent a causal effect.</p>
-<h1 id="conclusion">Conclusion</h1>
-<p>a brief (one paragraph) concluding section that summarizes your results,
-assesses the extent to which you find support for your hypothesis,
-describes limitations of your analysis and threats to inference,
-states how your analysis could be improved (e.g., improved data that would be useful to collect).</p>
-<p>Possible confounding: fewer people voting in 2016 due to unusually divisive candidates: Hilary Clinton, a woman, and Donald Trump, a political outsider.</p>
+<p>As the plot shows, the turnout proportion in states that passed new restrictive voting laws, approximately 76.2%, was lower than the turnout in states that did not, at about 79.5%. This supports my hypothesis that states which passed restrictive voting laws after Shelby County vs. Holder saw lower turnout in the 2016 election.</p>
+<h1 id="main-variable-regression">Main Variable Regression</h1>
+<p>My independent variable of interest was the new laws variable, and my dependent variable of interest was voter turnout. The regression table below shows the coefficients for a regression with those variables.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>regression</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>voted_or_not</span> <span class='op'>~</span> <span class='va'>new_laws</span>, data <span class='op'>=</span> <span class='va'>elections</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>var_labels</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(Intercept)"</span> <span class='op'>=</span> <span class='st'>"Intercept"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>regression</span>, statistic <span class='op'>=</span> <span class='st'>"p.value"</span>, </span>
+<span>                           gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span>,</span>
+<span>                           coef_map <span class='op'>=</span> <span class='va'>var_labels</span><span class='op'>)</span></span></code></pre>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+ (1)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:center;">
+0.795
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1.5px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1.5px">
+(&lt;0.001)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+9183
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>regression</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = voted_or_not ~ new_laws, data = elections)
+
+Coefficients:
+             (Intercept)  new_lawsRestrictive laws  
+                 0.79503                  -0.03312  </code></pre>
+</div>
+<p>From the table, you can see that the intercept is 0.795, meaning voter turnout was 79.5% in states which had no new, restrictive voting laws. The coefficient for states which did pass restrictive voting laws is -0.033, meaning those states saw turnout about 3.3 percentage points lower than other states. This follows logically from the earlier turnout proportions, since the turnout proportion in states which passed restrictive laws was 76.2%, 3.3 percentage points lower than 79.5%. The p-value is less than 0.001, which is statistically significant with an alpha of 0.05. I think the relationship can be interpreted causally, though there are possible confounding factors. For example, one argument could be that fewer people voted in 2016 due to unusually divisive candidates: Hilary Clinton, a woman, and Donald Trump, a political outsider. This would be supported by my first plot, which shows lower overall turnout in 2016 than 2012, though my second plot looks solely at data from 2016.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In conclusion, there does appear to be a relationship between voter turnout and whether states passed restrictive voting laws. Both the summary plot and the regression show that the turnout proportion in states with new restrictive voting laws was lower than in states without such laws. However, as I stated above, there are possible confounding factors. With more time, my analysis could be improved by looking closer at variables such as voter race, age, and voting method, which would be especially useful in looking at states which passed restrictive mail-in ballot laws.</p>
 <h2 id="works-cited">Works Cited</h2>
 <p>American National Election Studies. 2022. ANES Time Series Cumulative Data File 1948-2020 [dataset and documentation]. September 16, 2022 version. <a href="https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/" class="uri">https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/</a></p>
 <p>Singh, Jasleen, and Sara Carter. “States Have Added Nearly 100 Restrictive Laws Since SCOTUS Gutted the Voting Rights Act 10 Years Ago.” Brennan Center for Justice, 23 June 2023, <a href="https://www.brennancenter.org/our-work/analysis-opinion/states-have-added-nearly-100-restrictive-laws-scotus-gutted-voting-rights" class="uri">https://www.brennancenter.org/our-work/analysis-opinion/states-have-added-nearly-100-restrictive-laws-scotus-gutted-voting-rights</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

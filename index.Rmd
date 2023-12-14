@@ -7,16 +7,16 @@ output:
     self_contained: false
 ---
 
-# Introduction
+## Introduction
 
-For this project, I was interested in exploring data related to U.S. elections. I chose to examine voter turnout in states which passed restrictive voting laws in the aftermath of the 2013 Shelby County v. Holder Supreme Court case, which found Section 4 of the Voting Rights Act unconstitutional, allowing states to pass voting laws without being subject to federal review. Restrictive laws include restrictions on mail-in voting and unreasonably strict voter ID requirements, which disproportionately impact voters of color. These sorts of laws have been adopted by 29 states as of 2023 (Brennan Center for Justice, 2023).
+For this project, I was interested in exploring data related to U.S. elections. I chose to examine voter turnout in states which passed restrictive voting laws in the aftermath of the 2013 Shelby County v. Holder Supreme Court case, which found Section 4 of the Voting Rights Act unconstitutional, allowing states to pass voting laws without being subject to federal review. Restrictive measures include restrictions on mail-in voting, unreasonably strict voter ID requirements, and voter purges. As of 2023, these kinds of laws have been adopted by 29 states, including 11 which were previously subject to preclearance (Brennan Center for Justice, 2023).
 
 Did restrictive state voting laws after Shelby County vs. Holder (2013) impact voter turnout in the 2016 general election? In this report, I examine the extent to which restrictive voting laws passed after the Shelby decision impacted voter turnout in applicable states. I hypothesize that voter turnout decreased from 2012 to 2016 in states which passed stricter voter ID and mail-in ballot laws, especially for voters of color. I've chosen a data set with election data from 1948-2020, though I'll only be looking at general election data from 2012 and 2016, since I want to compare across time. The explanatory variable of interest is whether a state passed restrictive voting law(s) or not. I had to filter to specific states from the data based on information from the Brennan Center (see above). My outcome variable is voter turnout. If I observe lower voter turnout in 2016 compared to 2012 in states which passed restrictive voting laws, this would provide support for my hypothesis. If I observe higher or similar voter turnout, this would provide evidence against my hypothesis. 
 
 ## The Data 
 The data source is the American National Election Studies (ANES) Time Series Cumulative Data File, 1948-2020. ANES has conducted surveys, generally in-person interviews, during most national election cycles since 1948. The key dependent and independent variables for my project, namely voter turnout and year, are measured by these surveys. My research design is cross-sectional (difference-in-differences?)
 
-First, I filtered the dataset to only 2012 and 2016, directly before and after the Shelby County vs. Holder decision. Then I selected the columns I thought would be useful by referencing the code book, and renamed them for clarity. 
+First, I filtered the dataset to only the 2012 and 2016 national elections, directly before and after the Shelby County vs. Holder decision. Then I selected the columns I thought would be useful by referencing the code book, and renamed them for clarity. 
 
 ```{r}
 library(tidyverse)
@@ -26,7 +26,7 @@ elections <- read_csv("anes_timeseries.csv", show_col_types = FALSE)|>
   rename(year = VCF0004, age = VCF0101, gender = VCF0104, race = VCF0105a, region = VCF0112, poli_south = VCF0113, party = VCF0301, interest = VCF0310, registered = VCF0701, voted = VCF0702, turnout_summary = VCF0703, vote_day = VCF0748, vote_method = VCF0750, lib_scale = VCF0803, state_fips = VCF0901a)
 
 ```
-To summarize the dependent variable, voter turnout, I created a plot of overall voter turnout in the 2012 vs. 2016 national elections:
+To summarize the dependent variable, voter turnout, I created a plot of overall voter turnout in the 2012 vs. 2016 national elections. In order to do so, I created a new variable, voted_or_not, from the voted variable, which had previously been coded 2 for voted, 1 for didn't vote, and 0 for NA. 
 
 ```{r}
 elections <- elections |>
@@ -37,7 +37,7 @@ turnout_props <- elections |>
   group_by(year) |>
   summarize(turnout_prop = mean(voted_or_not))
 
-knitr::kable(turnout_props, col.names = c("Year", "Turnout Proportion"))
+knitr::kable(turnout_props, col.names = c("Year", "Turnout Proportion"), digits = 3)
 
 overall_turnout <- elections |>
   group_by(year) |>
@@ -51,9 +51,11 @@ overall_turnout <- elections |>
 
 overall_turnout
 ```
-As you can see from the plot, overall voter turnout decreased from 2012 to 2016. But I wanted to examine the effects in states previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder. Those states are South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona. The FIPS codes for those states are 1, 4, 12, 13, 22, 28, 36, 37, 45, 46, and 48. 
+As you can see from the plot, overall voter turnout decreased from 2012 to 2016. But I wanted to examine the effects in states previously subject to preclearance that enacted restrictive voting laws after Shelby County vs. Holder. Those states are South Dakota, New York, North Carolina, South Carolina, Georgia, Florida, Alabama, Mississippi, Louisiana, Texas, and Arizona (Brennan Center, 2023). The FIPS codes for those states are 1, 4, 12, 13, 22, 28, 36, 37, 45, 46, and 48. 
 
-# Results
+## Results
+
+To that end, I created a plot of the turnout proportion in states which passed restrictive voting laws versus those which did not. I began by creating a new variable, new_laws, which is coded as "Restrictive laws" if the FIPS code is for one of the above states, and "no new laws" for all other states. Then I followed a similar process as before for calculating turnout proportions and plotting them. 
 
 ```{r}
 library(ggplot2)
@@ -65,7 +67,7 @@ turnout_props_laws <- elections |>
   group_by(new_laws) |>
   summarize(turnout_prop = mean(voted_or_not))
 
-knitr::kable(turnout_props_laws, col.names = c("New laws or not", "Turnout Proportion"))
+knitr::kable(turnout_props_laws, col.names = c("New laws or not", "Turnout Proportion"), digits = 3)
 
 laws_comparison <- elections |>
   filter(year == 2016) |>
@@ -78,23 +80,27 @@ laws_comparison <- elections |>
 laws_comparison
 
 ```
-The turnout proportion in states that passed new restrictive voting laws was lower than the turnout in states that did not. *More interpretation here*
+As the plot shows, the turnout proportion in states that passed new restrictive voting laws, approximately 76.2%, was lower than the turnout in states that did not, at about 79.5%. This supports my hypothesis that states which passed restrictive voting laws after Shelby County vs. Holder saw lower turnout in the 2016 election.
 
-plot of main analysis + regression output + 2-3 paragraphs of description and interpretation of the plots and regression (including interpreting the main coefficient of interest and describing if it is statistically significant and if we should interpret it causally). 
+# Main Variable Regression
+My independent variable of interest was the new laws variable, and my dependent variable of interest was voter turnout. The regression table below shows the coefficients for a regression with those variables.
 
 ```{r}
+regression <- lm(voted_or_not ~ new_laws, data = elections)
 
+var_labels <- c("(Intercept)" = "Intercept")
+
+modelsummary::modelsummary(regression, statistic = "p.value", 
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"),
+                           coef_map = var_labels)
+
+regression
 ```
+From the table, you can see that the intercept is 0.795, meaning voter turnout was 79.5% in states which had no new, restrictive voting laws. The coefficient for states which did pass restrictive voting laws is -0.033, meaning those states saw turnout about 3.3 percentage points lower than other states. This follows logically from the earlier turnout proportions, since the turnout proportion in states which passed restrictive laws was 76.2%, 3.3 percentage points lower than 79.5%. The p-value is less than 0.001, which is statistically significant with an alpha of 0.05. I think the relationship can be interpreted causally, though there are possible confounding factors. For example, one argument could be that fewer people voted in 2016 due to unusually divisive candidates: Hilary Clinton, a woman, and Donald Trump, a political outsider. This would be supported by my first plot, which shows lower overall turnout in 2016 than 2012, though my second plot looks solely at data from 2016. 
 
-You should interpret (in plain English) the main coefficient of interest in your regression. You should also comment on the statistical significance of the estimated coefficient and whether or not you believe the coefficient to represent a causal effect.
+## Conclusion
+In conclusion, there does appear to be a relationship between voter turnout and whether states passed restrictive voting laws. Both the summary plot and the regression show that the turnout proportion in states with new restrictive voting laws was lower than in states without such laws. However, as I stated above, there are possible confounding factors. With more time, my analysis could be improved by looking closer at variables such as voter race, age, and voting method, which would be especially useful in looking at states which passed restrictive mail-in ballot laws.
 
-# Conclusion
-a brief (one paragraph) concluding section that summarizes your results, 
-assesses the extent to which you find support for your hypothesis, 
-describes limitations of your analysis and threats to inference, 
-states how your analysis could be improved (e.g., improved data that would be useful to collect).
-
-Possible confounding: fewer people voting in 2016 due to unusually divisive candidates: Hilary Clinton, a woman, and Donald Trump, a political outsider. 
 
 ## Works Cited
 American National Election Studies. 2022. ANES Time Series Cumulative Data File 1948-2020 [dataset and documentation]. September 16, 2022 version. https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/
